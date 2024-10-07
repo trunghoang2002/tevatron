@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizer, BatchEncoding, DataCollatorWithPadding
 
 
-from tevatron.arguments import DataArguments
+from tevatron.retriever.arguments import DataArguments
 
 from trainer import TevatronTrainer
 

@@ -15,7 +15,7 @@ from transformers import (
     HfArgumentParser,
 )
 
-from tevatron.arguments import ModelArguments, DataArguments, \
+from tevatron.retriever.arguments import ModelArguments, DataArguments, \
     TevatronTrainingArguments as TrainingArguments
 from data import HFQueryDataset, HFCorpusDataset
 

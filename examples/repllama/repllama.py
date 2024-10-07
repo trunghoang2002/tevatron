@@ -4,7 +4,7 @@ from torch import Tensor
 from transformers import LlamaModel, PreTrainedModel
 import logging
 from peft import LoraConfig, get_peft_model, PeftModel, TaskType
-from tevatron.modeling.encoder import EncoderModel
+from tevatron.retriever.modeling.encoder import EncoderModel
 
 logger = logging.getLogger(__name__)
 

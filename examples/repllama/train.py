@@ -9,7 +9,7 @@ from transformers import (
     set_seed,
 )
 
-from tevatron.arguments import ModelArguments, DataArguments, \
+from tevatron.retriever.arguments import ModelArguments, DataArguments, \
     TevatronTrainingArguments as TrainingArguments
 from trainer import TevatronTrainer
 from data import HFTrainDataset, TrainDataset, TrainCollator
