@@ -59,7 +59,7 @@ def main():
     model = RepLLaMA.load(
         model_name_or_path=model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
-        access_token=model_args.access_token
+        token=model_args.access_token
     )
 
     text_max_length = data_args.q_max_len if data_args.encode_is_qry else data_args.p_max_len
