@@ -65,10 +65,12 @@ def main():
     text_max_length = data_args.query_max_len if data_args.encode_is_query else data_args.passage_max_len
     if data_args.encode_is_query:
         encode_dataset = HFQueryDataset(tokenizer=tokenizer, data_args=data_args,
-                                        cache_dir=data_args.dataset_cache_dir or model_args.cache_dir)
+                                        cache_dir=data_args.dataset_cache_dir or model_args.cache_dir,
+                                        access_token=model_args.access_token)
     else:
         encode_dataset = HFCorpusDataset(tokenizer=tokenizer, data_args=data_args,
-                                         cache_dir=data_args.dataset_cache_dir or model_args.cache_dir)
+                                         cache_dir=data_args.dataset_cache_dir or model_args.cache_dir,
+                                         access_token=model_args.access_token)
     encode_dataset = EncodeDataset(encode_dataset.process(data_args.dataset_number_of_shards, data_args.dataset_shard_index),
                                    tokenizer, max_len=text_max_length)
 

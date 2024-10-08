@@ -17,13 +17,18 @@ logger = logging.getLogger(__name__)
 
 
 class HFTrainDataset:
-    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str):
-        data_files = data_args.train_path
+    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str, access_token: str = None):
+        data_files = getattr(data_args, 'train_path', None)
+        
         if data_files:
             data_files = {data_args.dataset_split: data_files}
+        else:
+            data_files = None
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
-                                    data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+                                    data_args.dataset_config,
+                                    split=data_args.dataset_split,
+                                    data_files=data_files, cache_dir=cache_dir,
+                                    token=access_token, trust_remote_code=True)
         self.preprocessor = TrainPreProcessor
         self.tokenizer = tokenizer
         self.q_max_len = data_args.q_max_len
@@ -74,13 +79,18 @@ class TrainPreProcessor:
 
 
 class HFQueryDataset:
-    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str):
-        data_files = data_args.encode_in_path
+    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str, access_token: str = None):
+        data_files = getattr(data_args, 'encode_in_path', None)
+        
         if data_files:
             data_files = {data_args.dataset_split: data_files}
+        else:
+            data_files = None
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
-                                    data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+                                    data_args.dataset_config,
+                                    split=data_args.dataset_split,
+                                    data_files=data_files, cache_dir=cache_dir,
+                                    token=access_token, trust_remote_code=True)
         self.preprocessor = QueryPreProcessor
         self.tokenizer = tokenizer
         self.q_max_len = data_args.q_max_len
@@ -115,19 +125,24 @@ class QueryPreProcessor:
 
 
 class HFCorpusDataset:
-    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str):
-        data_files = data_args.encode_in_path
+    def __init__(self, tokenizer: PreTrainedTokenizer, data_args: DataArguments, cache_dir: str, access_token: str = None):
+        data_files = getattr(data_args, 'encode_in_path', None)
+        
         if data_files:
             data_files = {data_args.dataset_split: data_files}
+        else:
+            data_files = None
         self.dataset = load_dataset(data_args.dataset_name,
-                                    data_args.dataset_language,
-                                    data_files=data_files, cache_dir=cache_dir, use_auth_token=True)[data_args.dataset_split]
+                                    data_args.dataset_config,
+                                    split=data_args.dataset_split,
+                                    data_files=data_files, cache_dir=cache_dir,
+                                    token=access_token, trust_remote_code=True)
         script_prefix = data_args.dataset_name
         if script_prefix.endswith('-corpus'):
             script_prefix = script_prefix[:-7]
         self.preprocessor = CorpusPreProcessor
         self.tokenizer = tokenizer
-        self.p_max_len = data_args.p_max_len
+        self.p_max_len = data_args.passage_max_len
         self.proc_num = data_args.dataset_proc_num
         self.separator = getattr(self.tokenizer, data_args.passage_field_separator, data_args.passage_field_separator)
 

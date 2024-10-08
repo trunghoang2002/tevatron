@@ -91,7 +91,7 @@ class DataArguments:
     )
 
     dataset_split: str = field(
-        default='train', metadata={"help": "dataset split"}
+        default=None, metadata={"help": "dataset split"}
     )
 
     dataset_cache_dir: Optional[str] = field(
@@ -134,6 +134,10 @@ class DataArguments:
         },
     )
 
+    passage_field_separator: str = field(
+        default='[SEP]', metadata={"help": "field separator for passage"}
+    )
+
     query_prefix: str = field(
         default='', metadata={"help": "prefix or instruction for query"}
     )
@@ -154,6 +158,9 @@ class DataArguments:
         },
     )
 
+    dataset_proc_num: int = field(
+        default=1, metadata={"help": "number of processes to process the dataset"}
+    )
 
 @dataclass
 class TevatronTrainingArguments(TrainingArguments):
