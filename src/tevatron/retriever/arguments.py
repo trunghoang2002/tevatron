@@ -71,6 +71,10 @@ class ModelArguments:
         },
     )
 
+    access_token: Optional[str] = field(
+        default=None, metadata={"help": "access token for private Huggingface model"}
+    )
+
 
 @dataclass
 class DataArguments:

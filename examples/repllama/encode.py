@@ -49,7 +49,8 @@ def main():
 
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
-        cache_dir=model_args.cache_dir
+        cache_dir=model_args.cache_dir,
+        token=model_args.access_token
     )
     tokenizer.pad_token_id = tokenizer.unk_token_id
     tokenizer.pad_token = tokenizer.unk_token
@@ -58,6 +59,7 @@ def main():
     model = RepLLaMA.load(
         model_name_or_path=model_args.model_name_or_path,
         cache_dir=model_args.cache_dir,
+        access_token=model_args.access_token
     )
 
     text_max_length = data_args.q_max_len if data_args.encode_is_qry else data_args.p_max_len

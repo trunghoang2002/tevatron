@@ -17,7 +17,7 @@ class RepLLaMA(EncoderModel):
                  untie_encoder: bool = False,
                  negatives_x_device: bool = False
                  ):
-        super().__init__(lm_q, lm_p, pooler, untie_encoder, negatives_x_device)
+        # super().__init__(lm_q, lm_p, pooler, untie_encoder, negatives_x_device)
         self.config = lm_q.config
 
     def encode_passage(self, psg):
@@ -104,7 +104,7 @@ class RepLLaMA(EncoderModel):
             **hf_kwargs,
     ):
         config = LoraConfig.from_pretrained(model_name_or_path)
-        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path)
+        base_model = LlamaModel.from_pretrained(config.base_model_name_or_path, token=hf_kwargs.get('token', None))
         if base_model.config.pad_token_id is None:
             base_model.config.pad_token_id = 0
         hf_model = PeftModel.from_pretrained(base_model, model_name_or_path, config=config, is_trainable=True)
